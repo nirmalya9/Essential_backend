@@ -1,0 +1,128 @@
+ESSENTIAL DjangoResframework api formats
+
+
+POST: Creating user (url:user/register)
+
+JSON format:
+	{
+  "username": ["This field is required.” ],
+  "name": ["This field is required." ],
+  "password": [ "This field is required." ],
+  "email": ["This field is required." ],
+ “college”:[“Field not mandatory”],
+ “interests:[“Field not mandatory”]
+}
+
+
+Username must be unique, in case the username sent is not unique, the url will return a warning as response and wont register the new user.
+On successful user registration it’ll return all the user details with an HTTP status 200
+If in any case there is any error in json format, the url will automatically address you what error has occurred
+
+POST: User Login(url: user/login)
+
+JSON Format:
+{
+  "username": ["This field is required."],
+  "password": ["This field is required." ]
+}
+
+On successful credential verification(login) the url will return the same JSON in response, along with a HTTP status code 200.
+In case, the user with given username doesn’t exist, it’ll return “wrong username” with status code 404
+ In case, the user with given password  doesn’t match, it’ll return “wrong password” with status code 400
+On sending of wrong JSON format, the url will return the list of errors.
+
+
+
+
+
+
+
+
+POST : Create (url:user/post/create)
+
+JSON Format:
+	{
+  "username": ["This field is required."],
+  "content": ["This field is required."],
+}
+
+Rest assure, images can be uploaded via create post, but it must be sent as a FILES parameter
+
+image = request.FILES.get('image')
+
+On creation of post it will return {"status": "Post has been uploaded"} 
+By any chance , if any error occurs it will return {"status": "Some error occurred", "error":”Reason of ERROR”)}
+
+GET: View Posts (url:post/view)
+
+JSON Format of posts are
+[
+    {
+        "id": 1,
+        "content": "HIG",
+        "image": null,
+        "like_counter": 1,
+        "comment_counter": 1,
+        "timestamp": "2024-02-05T09:41:59.693166Z",
+        "posted_by": "lucifer.rex"
+    },
+    {
+        "id": 2,
+        "content": "akjdhskjad",
+        "image": null,
+        "like_counter": 0,
+        "comment_counter": 2,
+        "timestamp": "2024-02-05T10:24:40.497137Z",
+        "posted_by": "lucifer.rex"
+    },
+    {
+        "id": 3,
+        "content": "LIGMA",
+        "image": null,
+        "like_counter": 0,
+        "comment_counter": 1,
+        "timestamp": "2024-02-05T14:25:25.659095Z",
+        "posted_by": "lucifer.rex"
+    }
+]
+It will return multiple instances of posts,
+Each instance of post will have the following attribute
+id : Unique post id
+content : Text content of the post
+image : It will return image urls(future addition)
+like_counter: counts the number of likes
+timestamp : shows date when post was uploaded
+posted_by : shows the user who posted
+
+
+POST: Posting Comments (url : user/post/comment)
+
+JSON Format:
+	{
+  "post_id": [
+    "This field is required."
+  ],
+  "username": [
+    "This field is required."
+  ],
+  "content": [
+    "This field is required."
+  ]
+}
+
+User must send the post_id, username and content.
+On success returns {"status": "comment posted"}
+On Failure returns , such as the post has been deleted {"Error": “Error status”}
+On JSON format error, it will return the errors that have been found
+	
+POST: Read comments on a post (url : post/comment/view)
+
+JSON Format:
+	{
+	“post_id”: ,
+	“username”:,
+	“Content”:
+	}
+	
+
+Returns all the comments on post
