@@ -9,7 +9,22 @@ class createUserSerializer(serializers.ModelSerializer):
         model = Users
         fields = ('username', 'name', 'password', 'email', 'college', 'interests')
 
+class createWardenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warden
+        fields = "__all__"
+class wardenLoginSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=50)
+    password = serializers.CharField(allow_null=False, max_length=60)
+class leaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Leave
+        fields = "__all__"
 
+class leaveActionSerializer(serializers.Serializer):
+    id = serializers.IntegerField(allow_null=False)
+    action = serializers.CharField(allow_null=False)
+    reason = serializers.CharField(allow_null=True,default="")
 class userLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -18,6 +33,7 @@ class userLoginSerializer(serializers.Serializer):
 class createPostSerializer(serializers.Serializer):
     username = serializers.CharField(allow_null=False)
     content = serializers.CharField(max_length=300, allow_null=False)
+
 
 
 class commentSerializer(serializers.Serializer):

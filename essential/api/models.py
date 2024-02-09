@@ -37,3 +37,17 @@ class Posts(models.Model):
     liked_by = models.ManyToManyField('api.Users',null=True, related_name="liked_posts")
     timestamp = models.DateTimeField(default=timezone.now, blank=True, null=True)
     comments = models.ManyToManyField('api.Comments', related_name="post_comments", null = True)
+
+class Warden(models.Model):
+    id = models.CharField(primary_key=True,max_length=50)
+    name = models.TextField(null=False)
+    password = models.CharField(null=False, max_length=60)
+class Leave(models.Model):
+    id = models.AutoField(primary_key = True)
+    student = models.ForeignKey('api.Users',blank = False,related_name= "leave_forms",on_delete=models.CASCADE)
+    warden = models.ForeignKey('api.Users',blank = True,related_name="approved_leaves",on_delete=models.CASCADE)
+    reason = models.TextField(null = False, default='')
+    departure = models.DateTimeField(null=False,default=timezone.now())
+    arrival = models.DateTimeField(null = False, default= "")
+    denial_reason = models.TextField(default="")
+    status = models.CharField(max_length=20, default="pending")
