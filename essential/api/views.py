@@ -11,7 +11,10 @@ def createUser(request):
     serializer = createUserSerializer(data=request.data)
     if (serializer.is_valid()):
         serializer.save()
+        image = request.FILES.get('image')
         user_instance = Users.objects.get(pk=serializer.validated_data["username"])
+        user_instance.pfp = image
+        user_instance.save()
         userprofile_instance = UserProfile.objects.create(user=user_instance)
         userprofile_instance.save()
         return Response(serializer.data)

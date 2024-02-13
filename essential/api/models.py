@@ -4,6 +4,7 @@ from django.utils import timezone
 class Users(models.Model):
     username = models.CharField(null=False, primary_key=True, max_length=50)
     name = models.CharField(null=False, max_length=150)
+    pfp = models.ImageField(null=True, default="",upload_to='face_id/')
     password = models.CharField(null=False, max_length=128)
     email = models.EmailField(null=False)
     college = models.CharField(null=True, default="", max_length=50)
@@ -51,3 +52,7 @@ class Leave(models.Model):
     arrival = models.DateTimeField(null = False, default= "")
     denial_reason = models.TextField(default="")
     status = models.CharField(max_length=20, default="pending")
+
+class HostelProfile(models.Model):
+    student = models.ForeignKey('api.Users',on_delete=models.CASCADE,null=False)
+    room = models.CharField(max_length=5,)

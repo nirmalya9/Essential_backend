@@ -7,7 +7,7 @@ from .models import *
 class createUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ('username', 'name', 'password', 'email', 'college', 'interests')
+        fields = ('username', 'name', 'password', 'email', 'college', )
 
 class createWardenSerializer(serializers.ModelSerializer):
     class Meta:
